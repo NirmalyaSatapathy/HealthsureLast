@@ -473,68 +473,76 @@ INSERT INTO medical_procedure (procedure_id, appointment_id, h_id, provider_id, 
 ('PROC075', 'APP010', 'HID010', 'PROV001', 'DOC001', '2024-03-01', 'AFib annual review', 'Prepare INR records', 'LONG_TERM', 'SCHEDULED'),
 ('PROC076', 'APP010', 'HID010', 'PROV001', 'DOC001', '2024-03-01', 'AFib annual review', 'Prepare INR records', 'LONG_TERM', 'SCHEDULED');
 
+-- PROC046
+-- Example prescriptions for PROC046 (HID001, PROV001, DOC001)
+INSERT INTO prescription VALUES
+('PRESC001', 'PROC046', 'HID001', 'PROV001', 'DOC001', 'DOC001', '2023-10-01 10:00:00', '2023-10-01', '2023-10-31', CURRENT_TIMESTAMP),
+('PRESC002', 'PROC046', 'HID001', 'PROV001', 'DOC001', 'DOC001', '2023-10-08 10:00:00', '2023-10-08', '2023-11-07', CURRENT_TIMESTAMP),
+('PRESC003', 'PROC046', 'HID001', 'PROV001', 'DOC001', 'DOC001', '2023-10-15 10:00:00', '2023-10-15', '2023-11-14', CURRENT_TIMESTAMP),
+('PRESC004', 'PROC046', 'HID001', 'PROV001', 'DOC001', 'DOC001', '2023-10-22 10:00:00', '2023-10-22', '2023-11-21', CURRENT_TIMESTAMP);
 
--- Insert prescriptions
-INSERT INTO prescription (prescription_id, procedure_id, h_id, provider_id, doctor_id, written_on, start_date, end_date,prescribed_by)
-VALUES
-('PRESC001', 'PROC001', 'HID001', 'PROV001', 'DOC001', '2023-10-15 10:30:00', '2023-10-15', '2023-12-15','DOC002'),
-('PRESC002', 'PROC002', 'HID002', 'PROV001', 'DOC001', '2023-10-15 11:00:00', '2023-10-15', '2024-01-15','DOC002'),
-('PRESC003', 'PROC003', 'HID003', 'PROV001', 'DOC001', '2023-10-15 11:30:00', '2023-10-15', '2023-12-15','DOC002'),
-('PRESC004', 'PROC004', 'HID004', 'PROV001', 'DOC001', '2023-10-15 12:00:00', '2023-10-15', '2023-11-15','DOC002'),
-('PRESC005', 'PROC005', 'HID005', 'PROV001', 'DOC001', '2023-10-15 12:30:00', '2023-10-15', '2024-01-15','DOC002'),
-('PRESC006', 'PROC006', 'HID006', 'PROV001', 'DOC001', '2023-10-15 13:00:00', '2023-10-15', '2023-12-15','DOC002'),
-('PRESC007', 'PROC007', 'HID007', 'PROV001', 'DOC001', '2023-10-15 13:30:00', '2023-10-15', '2024-02-15','DOC002'),
-('PRESC008', 'PROC008', 'HID008', 'PROV001', 'DOC001', '2023-10-16 10:30:00', '2023-10-16', '2023-12-16','DOC002'),
-('PRESC009', 'PROC009', 'HID009', 'PROV001', 'DOC001', '2023-10-16 11:00:00', '2023-10-16', '2024-01-16','DOC002'),
-('PRESC010', 'PROC010', 'HID010', 'PROV001', 'DOC001', '2023-10-16 11:30:00', '2023-10-16', '2023-12-16','DOC002'),
-('PRESC011', 'PROC011', 'HID001', 'PROV001', 'DOC002', '2023-10-15 10:30:00', '2023-10-15', NULL,'DOC002'),
-('PRESC012', 'PROC012', 'HID002', 'PROV001', 'DOC002', '2023-10-15 11:00:00', '2023-10-15', NULL,'DOC002'),
-('PRESC013', 'PROC013', 'HID003', 'PROV001', 'DOC002', '2023-10-15 11:30:00', '2023-10-15', '2023-10-29','DOC002'),
-('PRESC014', 'PROC014', 'HID004', 'PROV001', 'DOC002', '2023-10-15 12:00:00', '2023-10-15', '2023-12-15','DOC002'),
-('PRESC015', 'PROC015', 'HID005', 'PROV001', 'DOC002', '2023-10-15 12:30:00', '2023-10-15', NULL,'DOC002'),
-('PRESC016', 'PROC016', 'HID006', 'PROV001', 'DOC002', '2023-10-15 13:00:00', '2023-10-15', '2024-01-15','DOC002'),
-('PRESC017', 'PROC017', 'HID007', 'PROV001', 'DOC002', '2023-10-15 13:30:00', '2023-10-15', '2023-12-15','DOC002'),
-('PRESC018', 'PROC018', 'HID008', 'PROV001', 'DOC002', '2023-10-16 10:30:00', '2023-10-16', NULL,'DOC002'),
-('PRESC019', 'PROC019', 'HID009', 'PROV001', 'DOC002', '2023-10-16 11:00:00', '2023-10-16', NULL,'DOC002'),
-('PRESC020', 'PROC020', 'HID010', 'PROV001', 'DOC002', '2023-10-16 11:30:00', '2023-10-16', NULL,'DOC002');
--- Insert prescribed medicines
-INSERT INTO prescribed_medicines (prescribed_id, prescription_id, medicine_name, dosage, duration, notes)
-VALUES
-('PMED001', 'PRESC001', 'Lisinopril', '10mg daily', '2 months', 'For blood pressure'),
-('PMED002', 'PRESC001', 'Hydrochlorothiazide', '12.5mg daily', '2 months', 'Diuretic'),
-('PMED003', 'PRESC002', 'Atorvastatin', '20mg at bedtime', '3 months', 'For cholesterol'),
-('PMED004', 'PRESC003', 'Metformin', '500mg twice daily', '2 months', 'For diabetes'),
-('PMED005', 'PRESC003', 'Insulin Glargine', '20 units at bedtime', '2 months', 'Long-acting insulin'),
-('PMED006', 'PRESC004', 'Clopidogrel', '75mg daily', '1 month', 'Blood thinner'),
-('PMED007', 'PRESC005', 'Metoprolol', '50mg twice daily', '3 months', 'Beta blocker'),
-('PMED008', 'PRESC006', 'Albuterol inhaler', '2 puffs every 4-6 hours', '2 months', 'For asthma'),
-('PMED009', 'PRESC006', 'Fluticasone inhaler', '2 puffs daily', '2 months', 'Steroid inhaler'),
-('PMED010', 'PRESC007', 'Furosemide', '40mg daily', '4 months', 'Diuretic'),
-('PMED011', 'PRESC007', 'Lisinopril', '10mg daily', '4 months', 'ACE inhibitor'),
-('PMED012', 'PRESC008', 'Nitroglycerin', '0.4mg as needed', '2 months', 'For chest pain'),
-('PMED013', 'PRESC009', 'Cilostazol', '100mg twice daily', '3 months', 'For PAD'),
-('PMED014', 'PRESC010', 'Apixaban', '5mg twice daily', '2 months', 'Blood thinner'),
-('PMED015', 'PRESC013', 'Amoxicillin', '500mg three times daily', '10 days', 'For ear infection'),
-('PMED016', 'PRESC014', 'Cetirizine', '10mg daily', '2 months', 'For allergies'),
-('PMED017', 'PRESC016', 'Methylphenidate', '10mg twice daily', '3 months', 'For ADHD'),
-('PMED018', 'PRESC017', 'Montelukast', '5mg at bedtime', '2 months', 'For asthma');
+-- Repeat PRESC005–PRESC040 similarly for PROC047 to PROC055 with appropriate h_id and scheduling.
 
--- Insert prescribed tests
-INSERT INTO prescribed_tests (test_id, prescription_id, test_name, test_date, result_summary)
-VALUES
-('PTEST001', 'PRESC001', 'Blood pressure monitoring', '2023-11-15', 'Improved to 120/80'),
-('PTEST002', 'PRESC002', 'Lipid panel', '2023-11-15', 'LDL reduced to 100'),
-('PTEST003', 'PRESC003', 'HbA1c test', '2023-12-15', 'Reduced to 6.5%'),
-('PTEST004', 'PRESC004', 'Stress test', '2023-11-15', 'Positive for ischemia'),
-('PTEST005', 'PRESC005', 'EKG', '2023-11-15', 'Normal sinus rhythm'),
-('PTEST006', 'PRESC006', 'Pulmonary function test', '2023-11-15', 'Mild obstruction'),
-('PTEST007', 'PRESC007', 'Echocardiogram', '2023-12-15', 'EF 45%'),
-('PTEST008', 'PRESC008', 'Cardiac catheterization', '2023-11-16', '70% blockage in LAD'),
-('PTEST009', 'PRESC009', 'Ankle-brachial index', '2023-11-16', '0.8 right leg'),
-('PTEST010', 'PRESC010', 'Holter monitor', '2023-11-16', 'Occasional AFib'),
-('PTEST011', 'PRESC013', 'Ear culture', '2023-10-20', 'Positive for S. pneumoniae'),
-('PTEST012', 'PRESC014', 'Skin prick test', '2023-10-20', 'Positive for grass pollen'),
-('PTEST013', 'PRESC016', 'ADHD rating scale', '2024-01-15', 'Improved symptoms');
+-- Correct format for prescription entries linked to PROC047
+INSERT INTO prescription VALUES
+('PRESC005', 'PROC047', 'HID002', 'PROV001', 'DOC002', 'DOC001', '2023-09-15 09:00:00', '2023-09-15', '2023-10-15', CURRENT_TIMESTAMP),
+('PRESC006', 'PROC047', 'HID002', 'PROV001', 'DOC002', 'DOC001', '2023-09-22 09:00:00', '2023-09-22', '2023-10-22', CURRENT_TIMESTAMP),
+('PRESC007', 'PROC047', 'HID002', 'PROV001', 'DOC002', 'DOC001', '2023-09-29 09:00:00', '2023-09-29', '2023-10-29', CURRENT_TIMESTAMP),
+('PRESC008', 'PROC047', 'HID002', 'PROV001', 'DOC002', 'DOC001', '2023-10-06 09:00:00', '2023-10-06', '2023-11-06', CURRENT_TIMESTAMP);
+-- Medicines for PRESC001 to PRESC004
+INSERT INTO prescribed_medicines VALUES
+('PMED001', 'PRESC001', 'Amlodipine', 'tablet', '5mg', '30 days', 'Take in morning', '2023-10-01', '2023-10-31', CURRENT_TIMESTAMP),
+('PMED002', 'PRESC001', 'Losartan', 'tablet', '50mg', '30 days', 'After breakfast', '2023-10-01', '2023-10-31', CURRENT_TIMESTAMP),
+('PMED003', 'PRESC001', 'Hydrochlorothiazide', 'tablet', '25mg', '30 days', 'Diuretic regimen', '2023-10-01', '2023-10-31', CURRENT_TIMESTAMP),
+('PMED004', 'PRESC001', 'Metoprolol', 'tablet', '50mg', '30 days', 'Reduce heart rate', '2023-10-01', '2023-10-31', CURRENT_TIMESTAMP),
+('PMED005', 'PRESC001', 'Clonidine', 'tablet', '0.1mg', '30 days', 'Watch for drowsiness', '2023-10-01', '2023-10-31', CURRENT_TIMESTAMP),
+('PMED006', 'PRESC001', 'Telmisartan', 'tablet', '40mg', '30 days', 'Continue daily dosing', '2023-10-01', '2023-10-31', CURRENT_TIMESTAMP);
+-- Repeat pattern for PRESC002–PRESC004 using PMED007–PMED030
+
+-- Medicines for PRESC005 to PRESC008
+INSERT INTO prescribed_medicines VALUES
+('PMED031', 'PRESC005', 'Atorvastatin', 'tablet', '10mg', '90 days', 'Take once nightly', '2023-09-15', '2023-12-13', CURRENT_TIMESTAMP),
+('PMED032', 'PRESC005', 'Rosuvastatin', 'tablet', '20mg', '90 days', 'LDL focus, check after 3 weeks', '2023-09-15', '2023-12-13', CURRENT_TIMESTAMP),
+('PMED033', 'PRESC005', 'Fenofibrate', 'tablet', '160mg', '60 days', 'Take with evening meal', '2023-09-15', '2023-11-13', CURRENT_TIMESTAMP),
+('PMED034', 'PRESC005', 'Ezetimibe', 'tablet', '10mg', '60 days', 'Cholesterol absorption blocker', '2023-09-15', '2023-11-13', CURRENT_TIMESTAMP),
+('PMED035', 'PRESC005', 'Omega-3 Fatty Acids', 'syrup', '1g', '90 days', 'Twice daily—after meals', '2023-09-15', '2023-12-13', CURRENT_TIMESTAMP),
+('PMED036', 'PRESC005', 'Niacin', 'tablet', '500mg', '30 days', 'Monitor flushing side effects', '2023-09-15', '2023-10-14', CURRENT_TIMESTAMP);
+-- Continue pattern for PMED037–PMED060 for PRESC006–PRESC008
+-- Tests for PRESC001
+INSERT INTO prescribed_tests VALUES
+('PTEST001', 'PRESC001', 'Blood Pressure Monitoring', '2023-10-02', 'AM and PM readings', CURRENT_TIMESTAMP),
+('PTEST002', 'PRESC001', 'Renal Panel', '2023-10-03', 'Check creatinine', CURRENT_TIMESTAMP),
+('PTEST003', 'PRESC001', 'Electrolytes', '2023-10-04', 'Sodium and potassium', CURRENT_TIMESTAMP),
+('PTEST004', 'PRESC001', 'ECG', '2023-10-05', 'Baseline check', CURRENT_TIMESTAMP),
+('PTEST005', 'PRESC001', 'Cardiac Echo', '2023-10-06', 'Assess LV function', CURRENT_TIMESTAMP),
+('PTEST006', 'PRESC001', '24-Hour BP Monitor', '2023-10-07', 'Ambulatory setup', CURRENT_TIMESTAMP);
+-- Repeat for PTEST007–PTEST030 for PRESC002–PRESC004
+
+-- Tests for PRESC005
+INSERT INTO prescribed_tests VALUES
+('PTEST031', 'PRESC005', 'Lipid Profile', '2023-09-16', 'Fasting required', CURRENT_TIMESTAMP),
+('PTEST032', 'PRESC005', 'Liver Function Test', '2023-09-17', 'Check ALT/AST', CURRENT_TIMESTAMP),
+('PTEST033', 'PRESC005', 'CK Level', '2023-09-18', 'Muscle enzyme baseline', CURRENT_TIMESTAMP),
+('PTEST034', 'PRESC005', 'Thyroid Panel', '2023-09-19', 'Evaluate TSH', CURRENT_TIMESTAMP),
+('PTEST035', 'PRESC005', 'Vitamin D', '2023-09-20', 'Deficiency screen', CURRENT_TIMESTAMP),
+('PTEST036', 'PRESC005', 'Repeat Lipids', '2023-09-21', 'Verify response', CURRENT_TIMESTAMP);
+-- Logs for PROC046
+-- PROC046 logs
+INSERT INTO procedure_daily_log VALUES
+('PLOG001', 'PROC046', 'DOC001', '2023-10-01 09:00:00', NULL, 'Initial visit completed', CURRENT_TIMESTAMP),
+('PLOG002', 'PROC046', 'DOC001', '2023-10-02 10:30:00', NULL, 'Prescription PRESC001 issued', CURRENT_TIMESTAMP),
+('PLOG003', 'PROC046', 'DOC001', '2023-10-04 13:00:00', 'BP: 140/90', 'BP readings uploaded', CURRENT_TIMESTAMP),
+('PLOG004', 'PROC046', 'DOC001', '2023-10-06 15:00:00', NULL, 'Lab results reviewed', CURRENT_TIMESTAMP),
+('PLOG005', 'PROC046', 'DOC001', '2023-10-08 17:00:00', NULL, 'Dosage adjusted', CURRENT_TIMESTAMP);
+
+-- PROC047 logs
+INSERT INTO procedure_daily_log VALUES
+('PLOG006', 'PROC047', 'DOC001', '2023-09-15 10:00:00', NULL, 'Lipid therapy started', CURRENT_TIMESTAMP),
+('PLOG007', 'PROC047', 'DOC001', '2023-09-16 11:15:00', NULL, 'Prescription PRESC005 issued', CURRENT_TIMESTAMP),
+('PLOG008', 'PROC047', 'DOC001', '2023-09-18 09:00:00', 'ALT/AST normal', 'Liver tests normal', CURRENT_TIMESTAMP),
+('PLOG009', 'PROC047', 'DOC001', '2023-09-20 14:30:00', NULL, 'Muscle soreness reported', CURRENT_TIMESTAMP),
+('PLOG010', 'PROC047', 'DOC001', '2023-09-22 16:00:00', NULL, 'Switched to Rosuvastatin', CURRENT_TIMESTAMP);
+-- Continue through PTEST037–PTEST060 for PRESC006–PRESC008
 -- Insert claims
 INSERT INTO Claims (claim_id, subscribe_id, procedure_id, provider_id, h_id, claim_status, claim_date, amount_claimed, amount_approved)
 VALUES
