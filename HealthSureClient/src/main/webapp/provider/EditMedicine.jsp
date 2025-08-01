@@ -232,7 +232,7 @@
                     <h:commandButton value="save Medicine" action="#{procedureController.updateMedicine(procedureController.prescribedMedicine)}" styleClass="btn-add" />
                     <h:commandButton value="Reset Form" action="#{procedureController.restEditMedicine()}" immediate="true" styleClass="btn-reset" />
                 	 <h:commandButton value="back"
-							action="ViewMedicines?faces-redirect=true"
+							action="#{procedureController.backFromEditMedicine()}"
 							styleClass="shared-button" />
                 </div>
         </h:form>
