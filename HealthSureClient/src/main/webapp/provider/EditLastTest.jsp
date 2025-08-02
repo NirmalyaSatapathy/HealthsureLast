@@ -185,7 +185,7 @@ label, h\:outputLabel {
 
 					<div class="button-row">
 						<h:commandButton value="Save Test"
-							action="#{procedureController.updateTest(procedureController.procedureTest)}"
+							action="#{procedureController.updateLastTest(procedureController.procedureTest)}"
 							styleClass="shared-button" />
 						<h:commandButton value="Reset Form"
 							action="#{procedureController.restEditTest()}"

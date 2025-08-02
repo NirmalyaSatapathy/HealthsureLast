@@ -215,7 +215,7 @@
 
 				<div class="button-group">
 					<h:commandButton value="Edit Prescription"
-						action="AddPrescription?faces-redirect=true"
+						action="#{procedureController.editLastPrescription()}"
 						styleClass="action-button edit-row" />
 				</div>
 			</div>
