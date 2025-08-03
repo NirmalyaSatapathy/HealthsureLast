@@ -1605,7 +1605,6 @@ public class ProcedureController {
 	        context.validationFailed();
 	        isValid = false;
 	    }
-
 	    if (!isValid) return null;
 
 	    ProcedureType procedureType = procedure.getType();
@@ -2203,16 +2202,6 @@ public class ProcedureController {
 			int toIndex = Math.min(fromIndex + pageSize, total);
 			bookedAppointments = allBookedAppointments.subList(fromIndex, toIndex);
 		}
-		if (viewPrescriptions != null) {
-	        int total = viewPrescriptions.size();
-	        totalPages = (int) Math.ceil((double) total / pageSize);
-	        int fromIndex = (currentPage - 1) * pageSize;
-	        int toIndex = Math.min(fromIndex + pageSize, total);
-	        System.out.println(viewPrescriptions);
-	        currentPagePrescriptions = new ArrayList<>(viewPrescriptions.subList(fromIndex, toIndex));
-	        System.out.println(currentPagePrescriptions);
-	    }
-		 
 	}
 
 	public void nextPage() {
@@ -2563,29 +2552,32 @@ public class ProcedureController {
 				}
 			}
 		}
-		// Save prescriptions
-		for (Prescription p : prescriptions) {
-			boolean flag = false;
-			for (PrescribedMedicines pm : prescribedMedicines) {
-				if (pm.getPrescription().getPrescriptionId().equals(p.getPrescriptionId())) {
-					flag = true;
-					break;
-				}
-			}
-			for (ProcedureTest pt : procedureTests) {
-				if (pt.getPrescription().getPrescriptionId().equals(p.getPrescriptionId())) {
-					flag = true;
-					break;
-				}
-			}
-			if (flag == true) {
-
-				providerEjb.addPrescription(p);
-
-			}
-
+		// Save prescriptions 
+//		for (Prescription p : prescriptions) {
+//			boolean flag = false;
+//			for (PrescribedMedicines pm : prescribedMedicines) {
+//				if (pm.getPrescription().getPrescriptionId().equals(p.getPrescriptionId())) {
+//					flag = true;
+//					break;
+//				}
+//			}
+//			for (ProcedureTest pt : procedureTests) {
+//				if (pt.getPrescription().getPrescriptionId().equals(p.getPrescriptionId())) {
+//					flag = true;
+//					break;
+//				}
+//			}
+//			if (flag == true) {
+//
+//				providerEjb.addPrescription(p);
+//
+//			}
+//
+//		}
+		for(Prescription p:prescriptions)
+		{
+			providerEjb.addPrescription(p);
 		}
-
 		// Save prescribed medicines
 
 		for (PrescribedMedicines pm : prescribedMedicines) {
@@ -3392,6 +3384,7 @@ public class ProcedureController {
 		tempPrescription = new Prescription();
 		tempPrescription.setStartDate(p.getStartDate());
 		tempPrescription.setEndDate(p.getEndDate());
+		tempPrescription.setNotes(p.getNotes());
 		return "EditPrescription?faces-redirect=true";
 	}
 
@@ -3425,7 +3418,14 @@ public class ProcedureController {
 	public String resetEditPrescription() throws ClassNotFoundException, SQLException {
 		this.prescription.setStartDate(tempPrescription.getStartDate());
 		this.prescription.setEndDate(tempPrescription.getEndDate());
+		this.prescription.setNotes(tempPrescription.getNotes());
 		return "EditPrescription?faces-redirect=true";
+	}
+	public String resetEditLastPrescription() throws ClassNotFoundException, SQLException {
+		this.prescription.setStartDate(tempPrescription.getStartDate());
+		this.prescription.setEndDate(tempPrescription.getEndDate());
+		this.prescription.setNotes(tempPrescription.getNotes());
+		return "EditLastPrescription?faces-redirect=true";
 	}
 
 	public String restEditMedicine() throws ClassNotFoundException, SQLException {
@@ -3436,11 +3436,24 @@ public class ProcedureController {
 		this.prescribedMedicine.setNotes(tempMedicine.getNotes());
 		return "EditMedicine?faces-redirect=true";
 	}
+	public String restEditLastMedicine() throws ClassNotFoundException, SQLException {
+		this.prescribedMedicine.setStartDate(tempMedicine.getStartDate());
+		this.prescribedMedicine.setEndDate(tempMedicine.getEndDate());
+		this.prescribedMedicine.setDosage(tempMedicine.getDosage());
+		this.prescribedMedicine.setDuration(tempMedicine.getDuration());
+		this.prescribedMedicine.setNotes(tempMedicine.getNotes());
+		return "EditLastMedicine?faces-redirect=true";
+	}
 
 	public String restEditTest() throws ClassNotFoundException, SQLException {
 		this.procedureTest.setResultSummary(tempTest.getResultSummary());
 		this.procedureTest.setTestDate(tempTest.getTestDate());
 		return "EditTest?faces-redirect=true";
+	}
+	public String restEditLastTest() throws ClassNotFoundException, SQLException {
+		this.procedureTest.setResultSummary(tempTest.getResultSummary());
+		this.procedureTest.setTestDate(tempTest.getTestDate());
+		return "EditLastTest?faces-redirect=true";
 	}
 
 	public String restEditLog() throws ClassNotFoundException, SQLException {
@@ -3834,6 +3847,7 @@ public class ProcedureController {
 		tempPrescription=new Prescription();
 		tempPrescription.setStartDate(this.prescription.getStartDate());
 		tempPrescription.setEndDate(this.prescription.getEndDate());
+		tempPrescription.setNotes(this.prescription.getNotes());
 		return "EditLastPrescription?faces-redirect=true";
 	}
 	public String addExistingPrescMedicine(PrescribedMedicines pm) {
@@ -4114,6 +4128,7 @@ public class ProcedureController {
 	public String backFromLastPrescription() throws ClassNotFoundException, SQLException
 	{
 		resetEditPrescription();
+		System.out.println("returning to prescription dashboard");
 		return "PrescriptionDashboard?faces-redirect=true";
 	}
 	public String backFromLastMedicine() throws ClassNotFoundException, SQLException
@@ -4130,5 +4145,21 @@ public class ProcedureController {
 	    if (date == null) return "";
 	    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 	    return sdf.format(date);
+	}
+	public String backFromAddMedicine()
+	{
+		if(prescribedMedicines!=null && !prescribedMedicines.isEmpty())
+		{
+		this.prescribedMedicine=prescribedMedicines.get(prescribedMedicines.size()-1);
+		}
+		return "PrescriptionDashboard?faces-redirect=true";
+	}
+	public String backFromAddTest()
+	{
+		if(procedureTests!=null && !procedureTests.isEmpty())
+		{
+		this.procedureTest=procedureTests.get(procedureTests.size()-1);
+		}
+		return "PrescriptionDashboard?faces-redirect=true";
 	}
 }

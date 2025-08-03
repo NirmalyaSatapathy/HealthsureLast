@@ -223,7 +223,7 @@
                 </div>
 
                <h:commandButton value="back"
-							action="PrescriptionDashboard?faces-redirect=true"
+							action="#{procedureController.backFromAddMedicine()}"
 							styleClass="shared-button" />
          
         </h:form>

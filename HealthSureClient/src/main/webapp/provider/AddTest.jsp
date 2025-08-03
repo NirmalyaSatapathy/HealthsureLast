@@ -191,7 +191,7 @@ label, h\:outputLabel {
 							action="#{procedureController.createNewProcedureTest()}"
 							immediate="true" styleClass="shared-button" />
 						<h:commandButton value="back"
-							action="PrescriptionDashboard?faces-redirect=true"
+							action="#{procedureController.backFromAddTest()}"
 							styleClass="shared-button" />
 					</div>
 				</h:form>

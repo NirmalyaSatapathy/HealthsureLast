@@ -242,6 +242,13 @@
                                 if (e) e.setAttribute('type', 'date');
                             </script>
                         </div>
+                        <div class="form-group full-width">
+						<label for="notes">Notes</label>
+						<h:inputTextarea id="notes"
+							value="#{procedureController.prescription.notes}"
+							styleClass="form-control" />
+						<h:message for="notes" styleClass="error" />
+					</div>
                     </div>
 
                     <!-- Action buttons -->

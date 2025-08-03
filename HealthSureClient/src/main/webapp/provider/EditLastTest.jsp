@@ -188,7 +188,7 @@ label, h\:outputLabel {
 							action="#{procedureController.updateLastTest(procedureController.procedureTest)}"
 							styleClass="shared-button" />
 						<h:commandButton value="Reset Form"
-							action="#{procedureController.restEditTest()}"
+							action="#{procedureController.restEditLastTest()}"
 							immediate="true" styleClass="shared-button" />
 						 <h:commandButton value="back"
 							action="#{procedureController.backFromLastTest()}"

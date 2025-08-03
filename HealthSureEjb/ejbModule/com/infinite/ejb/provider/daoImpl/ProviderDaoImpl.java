@@ -89,8 +89,8 @@ public class ProviderDaoImpl implements ProviderDao {
 		System.out.println("remote prescription called");
 		Connection con = ConnectionHelper.getConnection();
 		String sql = "INSERT INTO prescription (" + "prescription_id, procedure_id, h_id, provider_id, doctor_id, "
-				+ "written_on, start_date, end_date, created_at,prescribed_by) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+				+ "written_on, start_date, end_date, created_at,prescribed_by,notes) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
 		PreparedStatement pst = con.prepareStatement(sql);
 
@@ -120,6 +120,7 @@ public class ProviderDaoImpl implements ProviderDao {
 		} else {
 			pst.setString(10, prescription.getPrescribedDoc().getDoctorId());
 		}
+		pst.setString(11, prescription.getNotes());
 		pst.executeUpdate();
 		pst.close();
 		con.close();
@@ -664,59 +665,65 @@ public class ProviderDaoImpl implements ProviderDao {
 
 		return procedure;
 	}
-
 	@Override
 	public List<Prescription> fetchPrescriptions(String procedureID) {
-		List<Prescription> prescriptions = new ArrayList<>();
+	    List<Prescription> prescriptions = new ArrayList<>();
 
-		String sql = "SELECT pr.prescription_id, pr.procedure_id, pr.h_id, pr.provider_id, pr.doctor_id, "
-				+ "       pr.prescribed_by, pr.written_on, pr.start_date, pr.end_date, pr.created_at "
-				+ "FROM prescription pr " + "WHERE pr.procedure_id = ?";
+	    String sql = "SELECT pr.prescription_id, pr.procedure_id, pr.h_id, pr.provider_id, pr.doctor_id, " +
+	                 "       pr.prescribed_by, pr.written_on, pr.start_date,pr.notes, pr.end_date, pr.created_at, " +
+	                 "       d1.doctor_name AS attending_doctor_name, " +
+	                 "       d2.doctor_name AS prescribed_doctor_name " +
+	                 "FROM prescription pr " +
+	                 "JOIN doctors d1 ON pr.doctor_id = d1.doctor_id " +
+	                 "JOIN doctors d2 ON pr.prescribed_by = d2.doctor_id " +
+	                 "WHERE pr.procedure_id = ?";
 
-		try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+	    try (Connection conn = ConnectionHelper.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-			ps.setString(1, procedureID);
+	        ps.setString(1, procedureID);
 
-			try (ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					Prescription prescription = new Prescription();
-					prescription.setPrescriptionId(rs.getString("prescription_id"));
-					prescription.setWrittenOn(rs.getTimestamp("written_on"));
-					prescription.setStartDate(rs.getTimestamp("start_date"));
-					prescription.setEndDate(rs.getTimestamp("end_date"));
-					prescription.setCreatedAt(rs.getTimestamp("created_at"));
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Prescription prescription = new Prescription();
+	                prescription.setPrescriptionId(rs.getString("prescription_id"));
+	                prescription.setWrittenOn(rs.getTimestamp("written_on"));
+	                prescription.setStartDate(rs.getTimestamp("start_date"));
+	                prescription.setEndDate(rs.getTimestamp("end_date"));
+	                prescription.setCreatedAt(rs.getTimestamp("created_at"));
+	                prescription.setNotes("notes");
+	                // Foreign key mappings with only IDs
+	                MedicalProcedure procedure = new MedicalProcedure();
+	                procedure.setProcedureId(rs.getString("procedure_id"));
+	                prescription.setProcedure(procedure);
 
-					// Foreign key mappings with only IDs
-					MedicalProcedure procedure = new MedicalProcedure();
-					procedure.setProcedureId(rs.getString("procedure_id"));
-					prescription.setProcedure(procedure);
+	                Recipient recipient = new Recipient();
+	                recipient.sethId(rs.getString("h_id"));
+	                prescription.setRecipient(recipient);
 
-					Recipient recipient = new Recipient();
-					recipient.sethId(rs.getString("h_id"));
-					prescription.setRecipient(recipient);
+	                Provider provider = new Provider();
+	                provider.setProviderId(rs.getString("provider_id"));
+	                prescription.setProvider(provider);
 
-					Provider provider = new Provider();
-					provider.setProviderId(rs.getString("provider_id"));
-					prescription.setProvider(provider);
+	                Doctors doctor = new Doctors();
+	                doctor.setDoctorId(rs.getString("doctor_id"));
+	                doctor.setDoctorName(rs.getString("attending_doctor_name")); // ✅ added name
+	                prescription.setDoctor(doctor);
 
-					Doctors doctor = new Doctors();
-					doctor.setDoctorId(rs.getString("doctor_id"));
-					prescription.setDoctor(doctor);
+	                Doctors prescribedDoc = new Doctors();
+	                prescribedDoc.setDoctorId(rs.getString("prescribed_by"));
+	                prescribedDoc.setDoctorName(rs.getString("prescribed_doctor_name")); // ✅ added name
+	                prescription.setPrescribedDoc(prescribedDoc);
 
-					Doctors prescribedDoc = new Doctors();
-					prescribedDoc.setDoctorId(rs.getString("prescribed_by"));
-					prescription.setPrescribedDoc(prescribedDoc);
+	                prescriptions.add(prescription);
+	            }
+	        }
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace(); // Replace with robust logging
+	    }
 
-					prescriptions.add(prescription);
-				}
-			}
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace(); // Replace with robust logging
-		}
-
-		return prescriptions;
+	    return prescriptions;
 	}
-
 	@Override
 	public List<PrescribedMedicines> fetchMedicines(String prescriptionId) {
 		List<PrescribedMedicines> medicines = new ArrayList<>();
@@ -845,7 +852,7 @@ public class ProviderDaoImpl implements ProviderDao {
 
 		Connection con = ConnectionHelper.getConnection();
 		String sql = "UPDATE prescription SET " + "procedure_id = ?, h_id = ?, provider_id = ?, doctor_id = ?, "
-				+ "written_on = ?, start_date = ?, end_date = ?, created_at = ?, prescribed_by = ? "
+				+ "written_on = ?, start_date = ?, end_date = ?, created_at = ?, prescribed_by = ?, notes=?"
 				+ "WHERE prescription_id = ?";
 
 		PreparedStatement pst = con.prepareStatement(sql);
@@ -876,8 +883,8 @@ public class ProviderDaoImpl implements ProviderDao {
 		} else {
 			pst.setString(9, prescription.getPrescribedDoc().getDoctorId());
 		}
-
-		pst.setString(10, prescription.getPrescriptionId());
+		pst.setString(10, prescription.getNotes());
+		pst.setString(11, prescription.getPrescriptionId());
 
 		int rowsUpdated = pst.executeUpdate();
 

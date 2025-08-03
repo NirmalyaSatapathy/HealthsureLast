@@ -216,7 +216,7 @@
 
                 <div class="button-group">
                     <h:commandButton value="save Medicine" action="#{procedureController.updateLastMedicine(procedureController.prescribedMedicine)}" styleClass="btn-add" />
-                    <h:commandButton value="Reset Form" action="#{procedureController.restEditMedicine()}" immediate="true" styleClass="btn-reset" />
+                    <h:commandButton value="Reset Form" action="#{procedureController.restEditLastMedicine()}" immediate="true" styleClass="btn-reset" />
                  <h:commandButton value="back"
 							action="#{procedureController.backFromLastMedicine()}"
 							styleClass="shared-button" />

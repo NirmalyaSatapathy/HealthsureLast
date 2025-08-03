@@ -161,6 +161,7 @@ CREATE TABLE prescription (
     written_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     start_date TIMESTAMP,
     end_date TIMESTAMP,
+    notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (procedure_id) REFERENCES medical_procedure(procedure_id),
     FOREIGN KEY (h_id) REFERENCES Recipient(h_id),
