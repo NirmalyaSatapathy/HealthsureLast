@@ -691,7 +691,7 @@ public class ProviderDaoImpl implements ProviderDao {
 	                prescription.setStartDate(rs.getTimestamp("start_date"));
 	                prescription.setEndDate(rs.getTimestamp("end_date"));
 	                prescription.setCreatedAt(rs.getTimestamp("created_at"));
-	                prescription.setNotes("notes");
+	                prescription.setNotes(rs.getString("notes"));
 	                // Foreign key mappings with only IDs
 	                MedicalProcedure procedure = new MedicalProcedure();
 	                procedure.setProcedureId(rs.getString("procedure_id"));
@@ -807,43 +807,49 @@ public class ProviderDaoImpl implements ProviderDao {
 
 	@Override
 	public List<ProcedureDailyLog> fetchLogs(String procedureID) {
-		List<ProcedureDailyLog> logs = new ArrayList<>();
+	    List<ProcedureDailyLog> logs = new ArrayList<>();
 
-		String sql = "SELECT log_id, procedure_id, logged_by, log_date, vitals, notes, created_at "
-				+ "FROM procedure_daily_log " + "WHERE procedure_id = ?";
+	    String sql = "SELECT log.log_id, log.procedure_id, log.logged_by, log.log_date, " +
+	                 "       log.vitals, log.notes, log.created_at, " +
+	                 "       d.doctor_name AS logged_doctor_name " +
+	                 "FROM procedure_daily_log log " +
+	                 "JOIN doctors d ON log.logged_by = d.doctor_id " +
+	                 "WHERE log.procedure_id = ?";
 
-		try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+	    try (Connection conn = ConnectionHelper.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-			ps.setString(1, procedureID);
+	        ps.setString(1, procedureID);
 
-			try (ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					ProcedureDailyLog log = new ProcedureDailyLog();
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                ProcedureDailyLog log = new ProcedureDailyLog();
 
-					log.setLogId(rs.getString("log_id"));
-					log.setLogDate(rs.getTimestamp("log_date"));
-					log.setVitals(rs.getString("vitals"));
-					log.setNotes(rs.getString("notes"));
-					log.setCreatedAt(rs.getTimestamp("created_at"));
+	                log.setLogId(rs.getString("log_id"));
+	                log.setLogDate(rs.getTimestamp("log_date"));
+	                log.setVitals(rs.getString("vitals"));
+	                log.setNotes(rs.getString("notes"));
+	                log.setCreatedAt(rs.getTimestamp("created_at"));
 
-					// Set procedure reference by ID only
-					MedicalProcedure procedure = new MedicalProcedure();
-					procedure.setProcedureId(rs.getString("procedure_id"));
-					log.setMedicalProcedure(procedure);
+	                // Set procedure reference by ID only
+	                MedicalProcedure procedure = new MedicalProcedure();
+	                procedure.setProcedureId(rs.getString("procedure_id"));
+	                log.setMedicalProcedure(procedure);
 
-					// Set logged doctor using just ID
-					Doctors doctor = new Doctors();
-					doctor.setDoctorId(rs.getString("logged_by"));
-					log.setloggedDoctor(doctor);
+	                // Set logged doctor with ID and name
+	                Doctors doctor = new Doctors();
+	                doctor.setDoctorId(rs.getString("logged_by"));
+	                doctor.setDoctorName(rs.getString("logged_doctor_name")); // ✅ added name
+	                log.setloggedDoctor(doctor);
 
-					logs.add(log);
-				}
-			}
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace(); // Replace with proper logging
-		}
+	                logs.add(log);
+	            }
+	        }
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace(); // Replace with proper logging
+	    }
 
-		return logs;
+	    return logs;
 	}
 
 	@Override

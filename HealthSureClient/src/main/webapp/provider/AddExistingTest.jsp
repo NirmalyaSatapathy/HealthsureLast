@@ -6,7 +6,7 @@
 	<html>
 <head>
 <title>Add Procedure Test</title>
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/AddExistingTest.css" />
 <!-- Prevent caching -->
 <meta http-equiv="Cache-Control"
 	content="no-cache, no-store, must-revalidate" />
@@ -22,104 +22,6 @@
       }
     });
   </script>
-
-<style>
-html, body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	font-family: 'Segoe UI', sans-serif;
-	background-color: #f4f8fb;
-	overflow: hidden;
-}
-
-.page-wrapper {
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-}
-
-.main-content {
-	flex-grow: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 10px;
-	margin-top: 90px;
-}
-
-.form-container {
-	max-width: 600px;
-	width: 100%;
-	padding: 15px;
-	background-color: #ffffff;
-	border-radius: 10px;
-	box-shadow: 0 0 10px #ccc;
-}
-
-.form-title {
-	text-align: center;
-	font-size: 22px;
-	margin-bottom: 12px;
-	color: #2a3f54;
-}
-
-.form-group {
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 10px;
-}
-
-label, h\:outputLabel {
-	font-weight: bold;
-	margin-bottom: 4px;
-	font-size: 15px;
-	color: #2c3e50;
-}
-
-.form-control {
-	width: 100%;
-	padding: 6px;
-	border-radius: 4px;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
-	font-size: 15px;
-}
-
-.error-message {
-	display: block;
-	color: #f44336 !important;
-	font-size: 14px;
-	font-weight: 600;
-	margin-top: 3px;
-}
-
-.button-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
-	justify-content: center;
-	margin-top: 15px;
-}
-
-.shared-button {
-	flex: 1;
-	min-width: 100px;
-	padding: 8px 14px;
-	font-size: 14px;
-	border: none;
-	border-radius: 5px;
-	color: white;
-	background-color: #00796b;
-	cursor: pointer;
-	text-align: center;
-	transition: background-color 0.3s ease;
-}
-
-.shared-button:hover {
-	background-color: #004d40;
-}
-</style>
 </head>
 
 <body>
@@ -131,7 +33,22 @@ label, h\:outputLabel {
 
 				<h:form prependId="false">
 					<h:messages globalOnly="true" styleClass="error-message" />
+<h:panelGroup rendered="#{not procedureController.validDoctor}">
+						<div class="form-group center-group compact-auth">
+							<h:outputLabel for="doctorId" value="Enter Doctor ID:" />
 
+							<h:inputText id="doctorId"
+								value="#{procedureController.doctorId}"
+								styleClass="form-control input-small" />
+
+							<h:message for="doctorId" styleClass="error-message" />
+
+							<h:commandButton value="Authenticate"
+								action="#{procedureController.authenticatePrescriptionDoctor(procedureController.doctorId)}"
+								styleClass="btn-add btn-small btn-authenticate" />
+						</div>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{procedureController.validDoctor}">
 					<div class="form-group">
 						<h:outputLabel for="prescriptionId" value="Prescription ID:" />
 						<h:inputText id="prescriptionId"
@@ -194,6 +111,7 @@ label, h\:outputLabel {
 							action="ViewTests?faces-redirect=true"
 							styleClass="shared-button" />
 					</div>
+					</h:panelGroup>
 				</h:form>
 			</div>
 		</div>

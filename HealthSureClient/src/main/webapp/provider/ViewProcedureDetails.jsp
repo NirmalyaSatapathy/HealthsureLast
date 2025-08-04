@@ -5,118 +5,12 @@
 <html>
 <head>
     <title>Started Procedure Details</title>
-
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/ViewProcedureDetails.css" />
     <!-- Disable caching -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: #f4f8fb;
-            overflow: hidden;
-        }
-
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .main-content {
-            flex-grow: 1;
-            padding: 10px;
-            overflow-y: auto;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            margin-top: 90px;
-        }
-
-        .form-container {
-            max-width: 600px;
-            width: 100%;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #ccc;
-        }
-
-        .form-title {
-            text-align: center;
-            font-size: 22px;
-            margin-bottom: 12px;
-            color: #2a3f54;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 4px;
-            font-size: 15px;
-            color: #2c3e50;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 6px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-
-        h\:inputTextarea.form-control {
-            resize: vertical;
-            min-height: 40px;
-        }
-
-        .error-message {
-            color: #d32f2f;
-            font-size: 13px;
-            margin-top: 3px;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 18px;
-        }
-
-        .green-button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .green-button:hover {
-            background-color: #218838;
-        }
-    </style>
 </head>
 <body>
     <div class="page-wrapper">

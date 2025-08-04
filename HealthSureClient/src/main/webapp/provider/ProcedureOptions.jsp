@@ -5,64 +5,7 @@
 <html>
 <head>
     <title>Select Procedure Type</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #fff8dc; /* Ghee color */
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 500px;
-            margin: 80px auto;
-            background-color: white;
-            padding: 30px 40px;
-            border-radius: 16px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-top:130px;
-        }
-
-        h2 {
-            color: #2e7d32;
-            margin-bottom: 30px;
-        }
-
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .radio-item {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .radio-item input[type="radio"] {
-            margin-right: 10px;
-        }
-
-        .submit-btn {
-            padding: 12px 24px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            background-color: #388e3c;
-        }
-    </style>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/ProcedureOptions.css" />
 </head>
 <body>
  <jsp:include page="/navbar/NavProvider.jsp" />
